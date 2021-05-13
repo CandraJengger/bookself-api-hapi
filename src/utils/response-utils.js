@@ -23,4 +23,17 @@ const responseSuccess = (h, message, data) =>
     })
     .code(201);
 
-module.exports = { responseFail, responseError, responseSuccess };
+const responseSuccessWithoutMessage = (h, data) =>
+  h
+    .response({
+      status: 'success',
+      data,
+    })
+    .code(201);
+
+module.exports = {
+  responseFail,
+  responseError,
+  responseSuccess,
+  responseSuccessWithoutMessage,
+};

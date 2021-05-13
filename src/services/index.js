@@ -4,6 +4,7 @@ const {
   responseError,
   responseFail,
   responseSuccess,
+  responseSuccessWithoutMessage,
 } = require('../utils/response-utils');
 
 const addBookHandler = (req, h) => {
@@ -61,4 +62,14 @@ const addBookHandler = (req, h) => {
   return responseError(h, 'Buku gagal ditambahkan');
 };
 
-module.exports = { addBookHandler };
+const getAllBooksHandler = (req, h) => {
+  if (books.length === 0) {
+    return responseSuccessWithoutMessage(h, {
+      books: [],
+    });
+  }
+
+  return responseSuccessWithoutMessage(h, books);
+};
+
+module.exports = { addBookHandler, getAllBooksHandler };
