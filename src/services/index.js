@@ -74,7 +74,23 @@ const addBookHandler = (req, h) => {
 };
 
 const getAllBooksHandler = (req, h) => {
-  const { name } = req.query;
+  const { name, reading, finished } = req.query;
+
+  if (books.length === 0) {
+    return responseSuccessWithoutMessage({
+      h,
+      data: {
+        books: [],
+      },
+      code: 200,
+    });
+  }
+
+  const newFormatBooks = books.map((book) => ({
+    id: book.id,
+    name: book.name,
+    publisher: book.publisher,
+  }));
 
   if (name !== undefined) {
     const resultBook = books
@@ -98,17 +114,89 @@ const getAllBooksHandler = (req, h) => {
     });
   }
 
-  const newFormatBooks = books.map((book) => ({
-    id: book.id,
-    name: book.name,
-    publisher: book.publisher,
-  }));
-
-  if (books.length === 0) {
+  if (reading !== undefined && reading === '1') {
+    const booksRead = books
+      .filter((book) => book.reading)
+      .map((book) => ({
+        id: book.id,
+        name: book.name,
+        publisher: book.publisher,
+      }));
     return responseSuccessWithoutMessage({
       h,
       data: {
-        books: [],
+        books: booksRead,
+      },
+      code: 200,
+    });
+  }
+
+  if (reading !== undefined && reading === '0') {
+    const unreadBooks = books
+      .filter((book) => !book.reading)
+      .map((book) => ({
+        id: book.id,
+        name: book.name,
+        publisher: book.publisher,
+      }));
+    return responseSuccessWithoutMessage({
+      h,
+      data: {
+        books: unreadBooks,
+      },
+      code: 200,
+    });
+  }
+
+  if (reading !== undefined) {
+    return responseSuccessWithoutMessage({
+      h,
+      data: {
+        books: newFormatBooks,
+      },
+      code: 200,
+    });
+  }
+
+  if (finished !== undefined && finished === '1') {
+    const finishedBooks = books
+      .filter((book) => book.finished)
+      .map((book) => ({
+        id: book.id,
+        name: book.name,
+        publisher: book.publisher,
+      }));
+    return responseSuccessWithoutMessage({
+      h,
+      data: {
+        books: finishedBooks,
+      },
+      code: 200,
+    });
+  }
+
+  if (finished !== undefined && finished === '0') {
+    const unfinishedBooks = books
+      .filter((book) => !book.finished)
+      .map((book) => ({
+        id: book.id,
+        name: book.name,
+        publisher: book.publisher,
+      }));
+    return responseSuccessWithoutMessage({
+      h,
+      data: {
+        books: unfinishedBooks,
+      },
+      code: 200,
+    });
+  }
+
+  if (finished !== undefined) {
+    return responseSuccessWithoutMessage({
+      h,
+      data: {
+        books: newFormatBooks,
       },
       code: 200,
     });
