@@ -92,6 +92,7 @@ const getAllBooksHandler = (req, h) => {
     publisher: book.publisher,
   }));
 
+  // Search book with query name
   if (name !== undefined) {
     const resultBook = books
       .filter((book) => book.name.toLowerCase() === name.toLowerCase())
@@ -114,6 +115,7 @@ const getAllBooksHandler = (req, h) => {
     });
   }
 
+  // Search book with query reading
   if (reading !== undefined && reading === '1') {
     const booksRead = books
       .filter((book) => book.reading)
@@ -158,6 +160,7 @@ const getAllBooksHandler = (req, h) => {
     });
   }
 
+  // Search book with query finished
   if (finished !== undefined && finished === '1') {
     const finishedBooks = books
       .filter((book) => book.finished)
