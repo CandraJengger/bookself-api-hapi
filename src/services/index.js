@@ -74,6 +74,12 @@ const addBookHandler = (req, h) => {
 };
 
 const getAllBooksHandler = (req, h) => {
+  const newFormatBooks = books.map((book) => ({
+    id: book.id,
+    name: book.name,
+    publisher: book.publisher,
+  }));
+
   if (books.length === 0) {
     return responseSuccessWithoutMessage({
       h,
@@ -84,7 +90,13 @@ const getAllBooksHandler = (req, h) => {
     });
   }
 
-  return responseSuccessWithoutMessage({ h, data: books, code: 200 });
+  return responseSuccessWithoutMessage({
+    h,
+    data: {
+      books: newFormatBooks,
+    },
+    code: 200,
+  });
 };
 
 const getBookByIdHandler = (req, h) => {
@@ -96,7 +108,13 @@ const getBookByIdHandler = (req, h) => {
     return responseFail({ h, message: 'Buku tidak ditemukan', code: 404 });
   }
 
-  return responseSuccessWithoutMessage({ h, data: bookOfId, code: 200 });
+  return responseSuccessWithoutMessage({
+    h,
+    data: {
+      book: bookOfId,
+    },
+    code: 200,
+  });
 };
 
 module.exports = { addBookHandler, getAllBooksHandler, getBookByIdHandler };

@@ -14,7 +14,7 @@ const responseError = ({ h, message = '', code = 500 }) =>
     })
     .code(code);
 
-const responseSuccess = ({ h, message = '', data = [], code = 200 }) =>
+const responseSuccess = ({ h, message = '', data = {}, code = 200 }) =>
   h
     .response({
       status: 'success',
@@ -23,7 +23,7 @@ const responseSuccess = ({ h, message = '', data = [], code = 200 }) =>
     })
     .code(code);
 
-const responseSuccessWithoutMessage = ({ h, data = [], code = 201 }) =>
+const responseSuccessWithoutMessage = ({ h, data = {}, code = 201 }) =>
   h
     .response({
       status: 'success',
