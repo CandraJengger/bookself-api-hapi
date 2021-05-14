@@ -1,35 +1,35 @@
-const responseFail = (h, message) =>
+const responseFail = ({ h, message = '', code = 400 }) =>
   h
     .response({
       status: 'fail',
       message,
     })
-    .code(400);
+    .code(code);
 
-const responseError = (h, message) =>
+const responseError = ({ h, message = '', code = 500 }) =>
   h
     .response({
       status: 'error',
       message,
     })
-    .code(500);
+    .code(code);
 
-const responseSuccess = (h, message, data) =>
+const responseSuccess = ({ h, message = '', data = [], code = 200 }) =>
   h
     .response({
       status: 'success',
       message,
       data,
     })
-    .code(201);
+    .code(code);
 
-const responseSuccessWithoutMessage = (h, data) =>
+const responseSuccessWithoutMessage = ({ h, data = [], code = 201 }) =>
   h
     .response({
       status: 'success',
       data,
     })
-    .code(201);
+    .code(code);
 
 module.exports = {
   responseFail,

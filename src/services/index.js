@@ -20,14 +20,20 @@ const addBookHandler = (req, h) => {
   } = req.payload;
 
   if (!name) {
-    return responseFail(h, 'Gagal menambahkan buku. Mohon isi nama buku');
+    return responseFail({
+      h,
+      message: 'Gagal menambahkan buku. Mohon isi nama buku',
+      code: 400,
+    });
   }
 
   if (readPage > pageCount) {
-    return responseFail(
+    return responseFail({
       h,
-      'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount'
-    );
+      message:
+        'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount',
+      code: 400,
+    });
   }
 
   const id = nanoid(16);
@@ -54,22 +60,31 @@ const addBookHandler = (req, h) => {
   const isSuccess = books.filter((note) => note.id === newBook.id).length > 0;
 
   if (isSuccess) {
-    return responseSuccess(h, 'Buku berhasil ditambahkan', {
-      bookId: id,
+    return responseSuccess({
+      h,
+      message: 'Buku berhasil ditambahkan',
+      data: {
+        bookId: id,
+      },
+      code: 201,
     });
   }
 
-  return responseError(h, 'Buku gagal ditambahkan');
+  return responseError({ h, message: 'Buku gagal ditambahkan', code: 500 });
 };
 
 const getAllBooksHandler = (req, h) => {
   if (books.length === 0) {
-    return responseSuccessWithoutMessage(h, {
-      books: [],
+    return responseSuccessWithoutMessage({
+      h,
+      data: {
+        books: [],
+      },
+      code: 200,
     });
   }
 
-  return responseSuccessWithoutMessage(h, books);
+  return responseSuccessWithoutMessage({ h, data: books, code: 200 });
 };
 
 module.exports = { addBookHandler, getAllBooksHandler };
