@@ -74,6 +74,30 @@ const addBookHandler = (req, h) => {
 };
 
 const getAllBooksHandler = (req, h) => {
+  const { name } = req.query;
+
+  if (name !== undefined) {
+    const resultBook = books
+      .filter((book) => book.name.toLowerCase() === name.toLowerCase())
+      .map((book) => ({
+        id: book.id,
+        name: book.name,
+        publisher: book.publisher,
+      }));
+
+    if (resultBook.length === 0) {
+      return responseFail({ h, message: 'Buku tidak ditemukan', code: 404 });
+    }
+
+    return responseSuccessWithoutMessage({
+      h,
+      data: {
+        books: resultBook,
+      },
+      code: 200,
+    });
+  }
+
   const newFormatBooks = books.map((book) => ({
     id: book.id,
     name: book.name,
