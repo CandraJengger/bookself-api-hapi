@@ -87,4 +87,16 @@ const getAllBooksHandler = (req, h) => {
   return responseSuccessWithoutMessage({ h, data: books, code: 200 });
 };
 
-module.exports = { addBookHandler, getAllBooksHandler };
+const getBookByIdHandler = (req, h) => {
+  const { bookId } = req.params;
+
+  const bookOfId = books.filter((book) => book.id === bookId)[0];
+
+  if (bookOfId === undefined) {
+    return responseFail({ h, message: 'Buku tidak ditemukan', code: 404 });
+  }
+
+  return responseSuccessWithoutMessage({ h, data: bookOfId, code: 200 });
+};
+
+module.exports = { addBookHandler, getAllBooksHandler, getBookByIdHandler };
